@@ -1,6 +1,6 @@
 <template>
     <div style="padding:12px 8px;">
-
+        <WisQrcode />
         <Row style="margin-bottom:28px;margin-top:12px">
             <i-col span="16">
                 <Input 

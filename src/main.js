@@ -8,6 +8,8 @@ import "@styles/index.less";  // 全局样式
 import App from './App.vue'
 import router from './router/config.js'
 
+// 全局组件
+import './packages/index.js';
 
 Vue.use(VueRouter);
 Vue.use(ViewUI);
