@@ -6,7 +6,7 @@
                 <ul class="list-box">
 
                     <Row>
-                        <i-col span="18">
+                        <i-col span="16">
                             <li>
                                 <label>转运单号:</label>
                                 <p>{{o.number}}</p>
@@ -19,9 +19,11 @@
                                 <p>{{o.time}}</p>
                             </li> 
                         </i-col>
-                        <i-col span="6">
+                        <i-col span="8">
                             <Tag class="status" color="cyan">{{o.status}}</Tag>
-                            <img :src="o.QRcode">                              
+                            <img :src="o.QRcode"> 
+                            <Icon @click="toDetails(o)" style="position:relative;padding:8px;top:-20px;" type="ios-arrow-forward" />
+                            <!-- <Button style=";padding:0px;box-shadow:none;" type="text" icon="ios-arrow-forward">详情</Button>      -->
                         </i-col>
                     </Row>       
                 </ul>
@@ -58,7 +60,15 @@ export default {
 
     },  
     methods: {
-
+        /**
+         * 详情
+         */
+        toDetails:function(row){
+            this.$router.push({
+                name:'dispatchDetailsHTML',
+                params: row
+            });
+        }
     }     
 }
 </script>

@@ -2,22 +2,26 @@
 <template>
     <div>
         <Row>
-            <i-col span="4" style="text-align:left;">
-                <Button ghost type="text" icon="ios-arrow-back" @click="backHTML">
+            <i-col span="8" style="text-align:left;">
+                <Button style="padding:0px;box-shadow:none;" ghost type="text" icon="ios-arrow-back" @click="backHTML">
                     返回
                 </Button>
+                <span style="padding-left:8px">
+                    <Icon style="color:#fff;padding-right:3px" type="ios-pin-outline" />
+                    <span style="display:inline-block;white-space:nowrap;font-size:12px;max-width: 40px;color:#fff;font-size:12px">{{pageName}}</span>
+                </span>
             </i-col>
-            <i-col span="16">
+            <i-col span="8">
                 <h3 class="head-tittle" @click="toHome">Supply Link</h3>
             </i-col>
-            <i-col span="4" style="text-align:right;">
+            <i-col span="8" style="text-align:right;">
 
                 <Dropdown
                     trigger="click"
                     placement="bottom-end"
                     @on-click="clickDropdown"
                 >
-                    <span style="color:#fff;padding-right:6px">供应商A</span>
+                    <span style="color:#fff;padding-right:6px;font-size:12px">供应商A</span>
                     <Icon style="color:#fff;font-size:18px" type="md-settings" />
                     <DropdownMenu slot="list">
                         <DropdownItem name="logout">
@@ -36,9 +40,14 @@
 export default {
     data() {
         return {
-
+            pageName:'',
         }
-    },        
+    },  
+    watch:{
+        '$route' (to){
+            this.pageName=to.meta.title;
+        },
+    },          
     created() {
 
     },  

@@ -19,6 +19,12 @@ const  routes = [
         component: () => import("@view/dispatch/index.vue"),
     }, 
     {
+      name: 'dispatchDetailsHTML',
+      path: '/dispatch/details',
+      meta: {title: '半成品发货详情', keepAlive: true},
+      component: () => import("@view/dispatch/details.vue"),
+  }, 
+    {
         name: 'receivingHTML',
         path: '/receiving',
         meta: {title: '收货', keepAlive: true},
