@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import ViewUI from 'view-design';
 
 import 'view-design/dist/styles/iview.css';
+import "@styles/index.less";  // 全局样式
 
 import App from './App.vue'
 import router from './router/config.js'

@@ -1,17 +1,34 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Layout>
+
+        <Affix>
+            <Header>
+              <HeaderHTML />
+            </Header>
+        </Affix>
+
+
+
+        <Content>
+            <keep-alive>
+              <router-view v-if='$route.meta.keepAlive'></router-view>
+            </keep-alive>
+            <router-view v-if='!$route.meta.keepAlive'></router-view>
+        </Content>
+    </Layout>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HeaderHTML from '@src/layout/header.vue';  // 头部
+
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HeaderHTML,
   }
 }
 </script>
@@ -23,6 +40,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+.ivu-layout{
+  background: #fff;
 }
 </style>
