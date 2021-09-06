@@ -14,6 +14,7 @@
 
         <div v-if="toggleMasking" class="masking-box">
             <Icon type="md-camera" />
+            <p style="padding-top:12px;text-align:center;color:#fff">相机加载中...</p>
         </div>
 
 
@@ -135,11 +136,11 @@ export default {
         width: 100%;
         background: #0000007a;
         text-align: center;
+        padding-top: 50%;
 
         .ivu-icon{
             font-size: 48px;
             color: #fff;
-            margin-top: 50%;
         }
     }
 
