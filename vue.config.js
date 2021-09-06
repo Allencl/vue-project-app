@@ -1,4 +1,5 @@
 const path = require('path');
+let timeStamp = new Date().getTime();
 
 module.exports = {
     publicPath:"./",
@@ -19,6 +20,10 @@ module.exports = {
             // }
     },
     configureWebpack:{
+        output: { 
+            filename: `js/js[name].${timeStamp}.js`,
+            chunkFilename: `js/chunk.[id].${timeStamp}.js`,
+        },    
         performance: {
 		    hints:false
 	    },
@@ -30,5 +35,11 @@ module.exports = {
                 '@view':path.resolve('./view'),
             }
         }
-    }
+    },
+    css: { 
+        extract: { 
+            filename: `css/[name].${timeStamp}.css`,
+            chunkFilename: `css/chunk.[id].${timeStamp}.css`,
+        }
+    }    
 };
