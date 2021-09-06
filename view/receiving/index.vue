@@ -186,14 +186,14 @@
              * 扫码成功
              */
             decodeHandle:function(code){
-                alert(code);
+                this.valueInput=code;
                 this.showCamera=false;
             },
             /**
              * 读取
              */
             readHandle:function(){
-
+                let _value=this.valueInput;
             },
             /**
              * 扫描

@@ -6,7 +6,7 @@
                 <ul class="list-box">
 
                     <Row>
-                        <i-col span="16">
+                        <i-col span="14">
                             <li>
                                 <label>转运单号:</label>
                                 <p>{{o.number}}</p>
@@ -19,7 +19,7 @@
                                 <p>{{o.time}}</p>
                             </li> 
                         </i-col>
-                        <i-col span="8">
+                        <i-col span="10">
                             <Tag class="status" color="cyan">{{o.status}}</Tag>
                             <img :src="o.QRcode"> 
                             <Icon @click="toDetails(o)" style="position:relative;padding:8px;top:-20px;" type="ios-arrow-forward" />

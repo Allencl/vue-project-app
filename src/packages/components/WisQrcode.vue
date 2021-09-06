@@ -3,27 +3,34 @@
         class="wis-qrcode-stream"
         :style="`height:${documentHeight}px`"
     >
+        <!-- camera="auto" -->
         <qrcode-stream 
-            camera="front" 
+            camera="camera" 
+            :torch="torchActive"
             @decode="onDecode" 
             @init="onInit"
-        ></qrcode-stream>
-
-        <Icon 
-            class="close-icon"
-            type="md-close-circle" 
-            @click="closeHandle"
-        />
-
-        <Affix :offset-bottom="20">
-            <div style="text-align:center;">
-                <span>请扫描二维码</span>
-            </div>
-        </Affix>
+        >  
+        </qrcode-stream>
 
 
-        <div class="move"></div>
+            <Icon 
+                class="close-icon"
+                type="md-close-circle" 
+                @click="closeHandle"
+            />   
+            <Affix  v-if="lodding" :offset-bottom="20">
+                <div style="text-align:center;">
+                    <div>
+                        <Icon v-if="torchActive" @click="toggleTorchHandle" type="md-bulb" style="margin-bottom:20px;color:#fff;font-size:26px;padding:8px;" />
+                        <Icon v-if="!torchActive" @click="toggleTorchHandle" type="ios-bulb-outline" style="margin-bottom:20px;color:#fff;font-size:26px;padding:8px;" />
+                    </div>
+                    <span style="color:#fff">请扫描二维码</span>
+                </div>
+            </Affix>
 
+            <div  v-if="lodding" class="move"></div>
+
+            <p v-if="!lodding" style="text-align:center">相机加载中。。。</p>
     </div>
 </template>
 <script>
@@ -36,12 +43,17 @@ export default {
     data() {
         return {
             documentHeight:document.documentElement.clientHeight,  // 窗口高度
+            torchActive:true,   // 电筒
+            lodding:false,
         }
     },        
     created() {
 
     },  
     methods: {
+        toggleTorchHandle:function(){
+            this.torchActive=!this.torchActive;
+        },
         closeHandle:function(){
             this.$emit("close");
         },
@@ -58,7 +70,8 @@ export default {
         onInit:function(promise) {
             let that=this;
             promise.then(
-                console.log
+                // console.log
+                that.lodding=true
             )
             .catch((error)=>{
 
