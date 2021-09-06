@@ -5,7 +5,7 @@
     >
         <!-- camera="auto" -->
         <qrcode-stream 
-            camera="camera" 
+            camera="auto" 
             :torch="torchActive"
             @decode="onDecode" 
             @init="onInit"

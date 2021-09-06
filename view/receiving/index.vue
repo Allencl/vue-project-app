@@ -186,6 +186,7 @@
              * 扫码成功
              */
             decodeHandle:function(code){
+                this.$Message.info('扫描成功！');
                 this.valueInput=code;
                 this.showCamera=false;
             },

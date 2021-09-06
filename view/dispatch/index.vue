@@ -3,8 +3,7 @@
     <div class="wis-dispatch-html">
         <List border size="small">
             <ListItem v-for="(o,i) in list" :key="i">
-                <ul class="list-box">
-
+                <ul class="list-box" @click="toDetails(o)">
                     <Row>
                         <i-col span="14">
                             <li>
@@ -22,7 +21,7 @@
                         <i-col span="10">
                             <Tag class="status" color="cyan">{{o.status}}</Tag>
                             <img :src="o.QRcode"> 
-                            <Icon @click="toDetails(o)" style="position:relative;padding:8px;top:-20px;" type="ios-arrow-forward" />
+                            <Icon style="position:relative;padding:8px;top:-20px;padding-left:0px;padding-right:0px" type="ios-arrow-forward" />
                             <!-- <Button style=";padding:0px;box-shadow:none;" type="text" icon="ios-arrow-forward">详情</Button>      -->
                         </i-col>
                     </Row>       
