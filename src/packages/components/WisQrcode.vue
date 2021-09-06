@@ -12,25 +12,28 @@
         >  
         </qrcode-stream>
 
+        <div v-if="toggleMasking" class="masking-box">
+            <Icon type="md-camera" />
+        </div>
 
-            <Icon 
-                class="close-icon"
-                type="md-close-circle" 
-                @click="closeHandle"
-            />   
-            <Affix  v-if="lodding" :offset-bottom="20">
-                <div style="text-align:center;">
-                    <div>
-                        <Icon v-if="torchActive" @click="toggleTorchHandle" type="md-bulb" style="margin-bottom:20px;color:#fff;font-size:26px;padding:8px;" />
-                        <Icon v-if="!torchActive" @click="toggleTorchHandle" type="ios-bulb-outline" style="margin-bottom:20px;color:#fff;font-size:26px;padding:8px;" />
-                    </div>
-                    <span style="color:#fff">请扫描二维码</span>
+
+        <Icon 
+            class="close-icon"
+            type="md-close-circle" 
+            @click="closeHandle"
+        />   
+        <Affix  v-if="lodding" :offset-bottom="20">
+            <div style="text-align:center;">
+                <div>
+                    <Icon v-if="torchActive" @click="toggleTorchHandle" type="md-bulb" style="margin-bottom:20px;color:#fff;font-size:26px;padding:8px;" />
+                    <Icon v-if="!torchActive" @click="toggleTorchHandle" type="ios-bulb-outline" style="margin-bottom:20px;color:#fff;font-size:26px;padding:8px;" />
                 </div>
-            </Affix>
+                <span style="color:#fff">请扫描二维码</span>
+            </div>
+        </Affix>
 
-            <div  v-if="lodding" class="move"></div>
+        <div  v-if="lodding" class="move"></div>
 
-            <p v-if="!lodding" style="text-align:center">相机加载中。。。</p>
     </div>
 </template>
 <script>
@@ -45,6 +48,7 @@ export default {
             documentHeight:document.documentElement.clientHeight,  // 窗口高度
             torchActive:false,   // 电筒
             lodding:false,
+            toggleMasking:false,
         }
     },        
     created() {
@@ -69,10 +73,13 @@ export default {
         },
         onInit:function(promise) {
             let that=this;
-            promise.then(
+
+            this.toggleMasking=true;
+            promise.then(()=>{
                 // console.log
-                that.lodding=true
-            )
+                that.lodding=true;
+                that.toggleMasking=false;
+            })
             .catch((error)=>{
 
                 // this.showError(error);
@@ -118,6 +125,23 @@ export default {
     width: 100%;
     z-index: 11;
     // height: 100px;
+
+    .masking-box{
+        position: absolute;
+        top:0px;
+        left: 0px;
+        z-index: 19;
+        height: 100%;
+        width: 100%;
+        background: #0000007a;
+        text-align: center;
+
+        .ivu-icon{
+            font-size: 48px;
+            color: #fff;
+            margin-top: 50%;
+        }
+    }
 
     .close-icon{
         position: fixed;
