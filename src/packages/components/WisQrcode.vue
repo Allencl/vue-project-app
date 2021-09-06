@@ -43,7 +43,7 @@ export default {
     data() {
         return {
             documentHeight:document.documentElement.clientHeight,  // 窗口高度
-            torchActive:true,   // 电筒
+            torchActive:false,   // 电筒
             lodding:false,
         }
     },        
