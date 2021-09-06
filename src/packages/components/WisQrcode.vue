@@ -3,7 +3,11 @@
         class="wis-qrcode-stream"
         :style="`height:${documentHeight}px`"
     >
-        <qrcode-stream @decode="onDecode" @init="onInit"></qrcode-stream>
+        <qrcode-stream 
+            camera="front" 
+            @decode="onDecode" 
+            @init="onInit"
+        ></qrcode-stream>
 
         <Icon 
             class="close-icon"
@@ -44,13 +48,48 @@ export default {
         onDecode:function(url) {
             this.$emit("decode",url);
         },
+        showError:function(error){
+            this.$Message.error({
+                content: error.name,
+                duration: 5,
+                closable: true
+            });            
+        },
         onInit:function(promise) {
+            let that=this;
             promise.then(
-                // console.log
+                console.log
             )
-            .catch(
-                // console.error
-            )
+            .catch((error)=>{
+
+                // this.showError(error);
+                that.$emit("close");
+
+
+                if (error.name === 'NotAllowedError') {
+                    this.$Message.error("用户拒绝摄像头访问权限！");
+                    // user denied camera access permisson
+                } else if (error.name === 'NotFoundError') {
+                    this.$Message.error("没有安装合适的摄像设备！");
+                    // no suitable camera device installed
+                } else if (error.name === 'NotSupportedError') {
+                    this.showError(error);
+                    // page is not served over HTTPS (or localhost)
+                } else if (error.name === 'NotReadableError') {
+                    this.$Message.error("摄像设备正在使用！");
+                    // maybe camera is already in use
+                } else if (error.name === 'OverconstrainedError') {
+                    this.showError(error);
+                    // did you requested the front camera although there is none?
+                } else if (error.name === 'StreamApiNotSupportedError') {
+                    this.$Message.error("浏览器没有此功能！");
+                    // browser seems to be lacking features
+                }
+
+
+
+
+            })
         }
     },
     props: {
