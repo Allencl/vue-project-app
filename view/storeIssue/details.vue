@@ -1,8 +1,8 @@
 <template>
     <div style="padding:12px 8px;">
         <div style="text-align:left;font-size:12px;padding-bottom:6px">
-            <label>公司:</label>
-            <span style="padding-left:6px">供应商AAA</span>
+            <label style="font-weight:bold;">公司:</label>
+            <span style="padding-left:6px">{{supplierName}}</span>
         </div>
         <Table 
             size="small"
@@ -16,6 +16,7 @@
     export default {
         data () {
             return {
+                supplierName:'',
                 columns: [
                     {
                         title: '行号',
@@ -43,26 +44,54 @@
                     }                                    
                 ],
                 data: [
-                    {
-                        no:1,
-                        name: '689999',
-                        quantity: 180,
-                        batch: 'FL-434343434',
-                        number: 'A111',
-                        order:12
-                    },
-                    {
-                        no:2,
-                        name: '689999',
-                        quantity: 240,
-                        batch: 'FL-55434343434',
-                        number: 'A899',
-                        order:13
-                    },
+                    // {
+                    //     no:1,
+                    //     name: '689999',
+                    //     quantity: 180,
+                    //     batch: 'FL-434343434',
+                    //     number: 'A111',
+                    //     order:12
+                    // },
 
 
                 ]
             }
+        },
+        created(){
+            this.initFunc();
+        },
+        methods:{
+            initFunc:function(){
+
+                let that=this;
+                let params=this.$route.params;
+
+                this.supplierName=params.supplierName;
+
+                this.$wisHTTP.post("api-supply/ostmDetail/list",{
+                    id:params.id,
+                    rows:1000,
+                    offset:0,
+                    limit:1000,
+                    page:1,
+                },{
+                    hideLoading:true
+                }).then((response={}) => {
+          
+                    that.data=(response["rows"]||[]).map((o,i)=>{
+
+                        return Object.assign(o,{
+                            no:i+1,
+                            name: o.materinalName,
+                            quantity: o.stmQuantity,
+                            batch: o.stmBatch,
+                            number: o.furnaceCode,
+                            order:o.rootQuantity,
+                        })
+                    });
+
+                }); 
+                }
         }
     }
 </script>

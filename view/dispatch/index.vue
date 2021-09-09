@@ -137,6 +137,9 @@ export default {
 
             label{
                 margin-right: 6px;
+                min-width: 52px;
+                text-align: right;
+                display: inline-block;
             }
 
             p{
