@@ -5,19 +5,19 @@ module.exports = {
     publicPath:"./",
     devServer: {
         disableHostCheck: true,
-            // proxy: {
-            //     '': {
-            //         // 此处的写法，目的是为了 将 /api 替换成 https://www.baidu.com/d
-            //         // target: 'http://10.4.11.207:8081',
-            //         target:process.env.VUE_APP_SERVER_API_BASE,
-            //         // 允许跨域
-            //         changeOrigin: true,
-            //         ws: true,
-            //         pathRewrite: {
-            //             '^/': '/'
-            //         }
-            //     },
-            // }
+        proxy: {
+            '': {
+                // 此处的写法，目的是为了 将 /api 替换成 https://www.baidu.com/d
+                target: 'http://10.6.14.152:9900',
+                // target:process.env.VUE_APP_SERVER_API_BASE,
+                // 允许跨域
+                changeOrigin: true,
+                ws: true,
+                pathRewrite: {
+                    '^/': '/'
+                }
+            },
+        }
     },
     configureWebpack:{
         output: { 

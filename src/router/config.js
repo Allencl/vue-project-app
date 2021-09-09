@@ -24,12 +24,25 @@ const  routes = [
       meta: {title: '半成品发货详情', keepAlive: true},
       component: () => import("@view/dispatch/details.vue"),
   }, 
-    {
-        name: 'receivingHTML',
-        path: '/receiving',
-        meta: {title: '收货', keepAlive: true},
-        component: () => import("@view/receiving/index.vue"),
-    }, 
+  {
+      name: 'receivingHTML',
+      path: '/receiving',
+      meta: {title: '收货', keepAlive: true},
+      component: () => import("@view/receiving/index.vue"),
+  }, 
+  {
+    name: 'storeIssueHTML',
+    path: '/storeIssue',
+    meta: {title: '委外发料', keepAlive: true},
+    component: () => import("@view/storeIssue/index.vue"),
+  }, 
+  {
+    name: 'storeIssueDetailsHTML',
+    path: '/storeIssue/details',
+    meta: {title: '发料单详情', keepAlive: true},
+    component: () => import("@view/storeIssue/details.vue"),
+  }, 
+
 
 
   ].concat([

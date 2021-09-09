@@ -38,8 +38,14 @@ export default {
                     icon:"ios-options-outline",
                     color:"#ff9900",
                     path:"/receiving"
-
-                }
+                },
+                {
+                    lable:"委外发料",
+                    icon:"ios-plane-outline",
+                    color:"#2d8cf0",  
+                    path:"/storeIssue"
+                }                
+                
             ],   // 菜单
         }
     },        

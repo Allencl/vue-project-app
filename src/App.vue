@@ -4,6 +4,7 @@
 
         <Affix>
             <Header>
+              <!-- <BUtton @click="bbb">aa</BUtton> -->
               <HeaderHTML />
             </Header>
         </Affix>
@@ -29,6 +30,33 @@ export default {
   name: 'App',
   components: {
     HeaderHTML,
+  },
+  created(){
+    this.initFunc();
+  },
+  methods:{
+    initFunc:function(){
+      let that=this;
+      this.$wisHTTP.post("api-uaa/oauth/user/token?username=admin&password=1&zh_CN=zh_CN&customKey=toName=home",{
+
+      },{
+          isLogin:true,
+          hideLoading:true
+      }).then((response={}) => {
+        localStorage.setItem("login_config",JSON.stringify(response));
+      }); 
+    },
+    bbb:function(){
+      let that=this;
+      this.$wisHTTP.post("api-supply/transferOrderForm/receipt",{
+        code:'ADC-21090700000002',
+        quantity:10
+      },{
+          hideLoading:true
+      }).then((response={}) => {
+        // localStorage.setItem("login_config",JSON.stringify(response));
+      }); 
+    }
   }
 }
 </script>
