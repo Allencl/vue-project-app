@@ -4,7 +4,6 @@
 
         <Affix>
             <Header>
-              <!-- <BUtton @click="bbb">aa</BUtton> -->
               <HeaderHTML />
             </Header>
         </Affix>
@@ -12,10 +11,12 @@
 
 
         <Content>
-            <keep-alive>
+            <!-- <keep-alive>
               <router-view v-if='$route.meta.keepAlive'></router-view>
             </keep-alive>
-            <router-view v-if='!$route.meta.keepAlive'></router-view>
+            <router-view v-if='!$route.meta.keepAlive'></router-view> -->
+
+            <router-view></router-view>
         </Content>
     </Layout>
   </div>
@@ -37,24 +38,13 @@ export default {
   methods:{
     initFunc:function(){
       let that=this;
-      this.$wisHTTP.post("api-uaa/oauth/user/token?username=admin&password=1&zh_CN=zh_CN&customKey=toName=home",{
+      this.$wisHTTP.post("api-uaa/oauth/user/token?username=longfeitest&password=1&zh_CN=zh_CN&customKey=toName=home",{
 
       },{
           isLogin:true,
           hideLoading:true
       }).then((response={}) => {
         localStorage.setItem("login_config",JSON.stringify(response));
-      }); 
-    },
-    bbb:function(){
-      let that=this;
-      this.$wisHTTP.post("api-supply/transferOrderForm/receipt",{
-        code:'ADC-21090700000002',
-        quantity:10
-      },{
-          hideLoading:true
-      }).then((response={}) => {
-        // localStorage.setItem("login_config",JSON.stringify(response));
       }); 
     }
   }

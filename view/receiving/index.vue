@@ -38,10 +38,16 @@
                         </FormItem>            
                     </i-col>
                     <i-col span="12">
+                        <FormItem label="到货时间">
+                            <Input v-model="formInline.arrivalTime" size="small" disabled></Input>
+                        </FormItem>             
+                    </i-col>     
+                                   
+                    <!-- <i-col span="12">
                         <FormItem label="发货时间">
                             <Input v-model="formInline.deliverTime" size="small" disabled></Input>
                         </FormItem>             
-                    </i-col>
+                    </i-col> -->
                 </Row>
                 <Row>
                     <i-col span="12">
@@ -50,34 +56,32 @@
                         </FormItem>            
                     </i-col>
                     <i-col span="12">
-                        <FormItem label="到货时间">
-                            <Input v-model="formInline.arrivalTime" size="small" disabled></Input>
-                        </FormItem>             
-                    </i-col>
-                </Row>
-                <Row>
-                    <i-col span="12">
                         <FormItem label="卸货负责人">
                             <Input v-model="formInline.principal" size="small" disabled></Input>
                         </FormItem>            
+                    </i-col>                    
+
+                </Row>
+                <Row>
+                    <i-col span="12">
+                        <FormItem label="状态">
+                            <Input v-model="formInline.status" size="small" disabled></Input>
+                        </FormItem>             
                     </i-col>
                     <i-col span="12">
                         <FormItem label="卸货口电话">
                             <Input v-model="formInline.phone" size="small" disabled></Input>
                         </FormItem>             
                     </i-col>
+
                 </Row>  
                 <Row>
-                    <i-col span="12">
+                    <!-- <i-col span="12">
                         <FormItem label="仓库">
                             <Input v-model="formInline.warehouse" size="small" disabled></Input>
                         </FormItem>            
-                    </i-col>
-                    <i-col span="12">
-                        <FormItem label="状态">
-                            <Input v-model="formInline.status" size="small" disabled></Input>
-                        </FormItem>             
-                    </i-col>
+                    </i-col> -->
+
                 </Row>                      
             </Form>
 
@@ -87,7 +91,12 @@
                 :columns="columns" 
                 :data="data"
                 style="margin-top:12px"
-            ></Table>
+                v-if="showTable"
+            >
+                <template slot-scope="{row}" slot="takeDelivery">
+                    <InputNumber v-model="takeDeliveryValue" @on-change="changeInputNumber" :max="row.deliver" :min="0" ></InputNumber>
+                </template>            
+            </Table>
 
 
             <Affix :offset-bottom="20">
@@ -104,17 +113,22 @@
     export default {
         data () {
             return {
+                takeDeliveryValue:0,
                 showCamera:false,   // 相机
+                // valueInput:'ADC-21090700000002',  // 扫码
                 valueInput:'',  // 扫码
+
+
+                showTable:true,
                 formInline: {
-                    odd:'23322aqq',
-                    supplier:'供应商aaa',
-                    principal:'负责人',
-                    warehouse:'仓库',
-                    deliverTime:'2012-11-09',
-                    arrivalTime:"2013-01-09",
-                    phone:'18978546787',
-                    status:'待发货'
+                    // odd:'23322aqq',
+                    // supplier:'供应商aaa',
+                    // principal:'负责人',
+                    // warehouse:'仓库',
+                    // deliverTime:'2012-11-09',
+                    // arrivalTime:"2013-01-09",
+                    // phone:'18978546787',
+                    // status:'待发货'
                 },
                 ruleInline: {
                     // user: [
@@ -137,45 +151,74 @@
                         key: 'name'
                     },
                     {
-                        title: '需求数量',
-                        key: 'age'
-                    },
-                    {
                         title: '发货数',
-                        key: 'age'
+                        key: 'deliver'
                     },  
                     {
                         title: '收货数',
-                        key: 'age'
+                        slot: 'takeDelivery',
                     },                                    
                 ],
                 data: [
-                    {
-                        no:1,
-                        name: 'John Brown',
-                        age: 18,
-                        address: 'New York No. 1 Lake Park',
-                        date: '2016-10-03'
-                    },
-                    {
-                        no:2,
-                        name: 'Jim Green',
-                        age: 24,
-                        address: 'London No. 1 Lake Park',
-                        date: '2016-10-01'
-                    },
-                    {
-                        no:3,
-                        name: 'Joe Black',
-                        age: 30,
-                        address: 'Sydney No. 1 Lake Park',
-                        date: '2016-10-02'
-                    },
+
 
                 ]
             }
         },
+        created(){
+            // this.initFunc();
+        },
         methods: {
+            initFunc:function(){
+                let that=this;
+                let {valueInput}=this;
+                this.$wisHTTP.post("api-supply/transferOrderForm/load",{
+                    // rows:1000,
+                    // offset:0,
+                    // limit:1000,
+                    // page:1,
+                    code:valueInput,
+                    // quantity:10
+                },{
+                    // hideLoading:true
+                }).then((response={}) => {
+                    let _data=response.data||{};
+
+                    var _val='';
+                    switch (_data.status) {
+                        case "SHIPPED":
+                            _val="待收货";
+                            break;
+                        case "PARTIAL_RECEIPT":
+                            _val="部分收货";
+                            break;                    
+                        default:
+                            _val="无";
+                            break;
+                    }                    
+
+                    that.formInline={
+                        odd:_data.code,
+                        arrivalTime:_data.estimatedArrivalDate,
+                        supplier:_data.fromSupplierName,
+                        principal:_data.consignee,
+                        status:_data._val,
+                        phone:_data.receivingContact,
+
+
+                    };
+
+                    that.data=(_data.receiptList||[]).map((o,i)=>{
+                        return Object.assign(o,{
+                            no:i+1,
+                            name:o.materialName,
+                            deliver:o.shipmentNumber,
+                            takeDelivery:0,
+                        })
+                    });
+
+                }); 
+            },
             /**
              * 关闭
              */
@@ -194,7 +237,7 @@
              * 读取
              */
             readHandle:function(){
-                let _value=this.valueInput;
+                this.initFunc();
             },
             /**
              * 扫描
@@ -202,11 +245,34 @@
             scanHandle:function(){
                 this.showCamera=true;
             },
+            changeInputNumber:function(value){
+                if(value==null){
+                    this.takeDeliveryValue=0;
+                    this.showTable=false;
+                    this.$nextTick(()=>{
+                        this.showTable=true;
+                    });
+                }
+            },
             /**
              * 收货
              */
             handleSubmit:function(){
+                let that=this;
+                let {takeDeliveryValue,valueInput}=this;
 
+                this.$wisHTTP.post("api-supply/transferOrderForm/receipt",{
+                    code:valueInput,
+                    quantity:takeDeliveryValue
+                },{
+                    hideLoading:true
+                }).then((response={}) => {
+                    if(response.success){
+                        that.$Message.success(response.message);
+                    }else{
+                        that.$Message.warning(response.message);
+                    }
+                });
             }
         }        
     }

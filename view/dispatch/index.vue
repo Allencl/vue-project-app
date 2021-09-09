@@ -11,17 +11,26 @@
                                 <p>{{o.number}}</p>
                             </li>
                             <li>
-                                <label>{{o.supplier}}</label>
+                                <label style="font-weight:bold;">{{o.supplier}}</label>
                             </li>
+
+                            <li>
+                                <label>物料信息:</label>
+                                <p>{{o.materialName}}</p>
+                            </li> 
+                            <li>
+                                <label>发货数:</label>
+                                <p>{{o.shipmentNumber}}</p>
+                            </li>                             
                             <li>
                                 <label>创建时间:</label>
                                 <p>{{o.time}}</p>
-                            </li> 
+                            </li>                             
                         </i-col>
-                        <i-col span="10">
+                        <i-col span="10" style="text-align:right">
                             <Tag class="status" color="cyan">{{o.status}}</Tag>
                             <img :src="o.QRcode"> 
-                            <Icon style="position:relative;padding:8px;top:-20px;padding-left:0px;padding-right:0px" type="ios-arrow-forward" />
+                            <!-- <Icon style="position:relative;padding:8px;top:-20px;padding-left:0px;padding-right:0px" type="ios-arrow-forward" /> -->
                             <!-- <Button style=";padding:0px;box-shadow:none;" type="text" icon="ios-arrow-forward">详情</Button>      -->
                         </i-col>
                     </Row>       
@@ -38,13 +47,13 @@ export default {
         return {
             // 列表
             list:[
-                {
-                    number:"IVC-20297876887",
-                    supplier:"供应商A",
-                    time:"2012-03-11 08:30:22",
-                    status:"待收货",
-                    QRcode:"https://qr.api.cli.im/newqr/create?data=4543543545&level=H&transparent=false&bgcolor=%23FFFFFF&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&logoshape=no&size=260&kid=cliim&key=90ad1308004e37c11b1b72c78b21e14a"
-                },
+                // {
+                //     number:"IVC-20297876887",
+                //     supplier:"供应商A",
+                //     time:"2012-03-11 08:30:22",
+                //     status:"待收货",
+                //     QRcode:"https://qr.api.cli.im/newqr/create?data=4543543545&level=H&transparent=false&bgcolor=%23FFFFFF&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&logoshape=no&size=260&kid=cliim&key=90ad1308004e37c11b1b72c78b21e14a"
+                // },
                 {
                     number:"IVC-560297876887",
                     supplier:"供应商888",
@@ -56,17 +65,54 @@ export default {
         }
     },        
     created() {
-
+        this.initFunc();
     },  
     methods: {
+        initFunc:function(){
+            let that=this;
+            this.$wisHTTP.post("api-supply/transferOrderForm/shipList",{
+                rows:1000,
+                offset:0,
+                limit:1000,
+                page:1,
+            },{
+                hideLoading:true
+            }).then((response={}) => {
+                that.list=(response["rows"]||[]).map((o)=>{
+
+                    var _val='';
+                    switch (o.status) {
+                        case "SHIPPED":
+                            _val="待收货";
+                            break;
+                        case "PARTIAL_RECEIPT":
+                            _val="部分收货";
+                            break;                    
+                        default:
+                            _val="无";
+                            break;
+                    }
+
+                    return Object.assign(o,{
+                        number:o.code,
+                        supplier:o.toSupplierName||'名阳',
+                        time:o.createTime,
+                        status:_val,
+                        materialName:(o.fromOrder||{})["materialName"],
+                        shipmentNumber:o.shipmentNumber
+                    })
+                });
+                // localStorage.setItem("login_config",JSON.stringify(response));
+            }); 
+        },
         /**
          * 详情
          */
         toDetails:function(row){
-            this.$router.push({
-                name:'dispatchDetailsHTML',
-                params: row
-            });
+            // this.$router.push({
+            //     name:'dispatchDetailsHTML',
+            //     params: row
+            // });
         }
     }     
 }
@@ -83,6 +129,7 @@ export default {
     ul.list-box{
         width: 100%;
         li{
+            min-height: 22px;
             list-style: none;
             width: 100%;
             text-align: left;
@@ -99,13 +146,13 @@ export default {
 
         .ivu-tag.status{
             position: relative;
-            top: -20px;
+            top: -46px;
             right: 6px;
         }
 
         img{
-            width: 50px;
-            height: 50px;
+            width: 100px;
+            height: 100px;
         }
     }
 }
