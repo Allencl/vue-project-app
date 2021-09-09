@@ -237,6 +237,13 @@
              * 读取
              */
             readHandle:function(){
+                let {valueInput}=this;
+
+                if(!valueInput){
+                    this.$Message.warning("请扫描或输入单号！");
+                    return
+                }
+                
                 this.initFunc();
             },
             /**
