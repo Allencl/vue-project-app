@@ -37,15 +37,7 @@ export default {
   },
   methods:{
     initFunc:function(){
-      let that=this;
-      this.$wisHTTP.post("api-uaa/oauth/user/token?username=longfeitest&password=1&zh_CN=zh_CN&customKey=toName=home",{
-
-      },{
-          isLogin:true,
-          hideLoading:true
-      }).then((response={}) => {
-        localStorage.setItem("login_config",JSON.stringify(response));
-      }); 
+      this.$wisHTTP.loginFunc();
     }
   }
 }

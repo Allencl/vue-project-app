@@ -3,6 +3,7 @@ import qs from 'qs';
 import ViewUI from 'view-design';
 
 
+
 // import { Loading } from 'element-ui'
 
 // axios.defaults.baseURL =
@@ -61,14 +62,17 @@ instance.interceptors.request.use(
       let _token=JSON.parse((localStorage.getItem("login_config")||"{}"));
       let _access_token=(_token["data"]||{})["access_token"];
 
-      // Cookie
-      if(config["ajaxConfig"]["isLogin"]){
-        config.headers["Authorization"]='Basic d2ViQXBwOndlYkFwcA==';
-      }else{
+      if(_access_token){
         config.headers["Authorization"]='Bearer '+_access_token;
       }
+      // Cookie
+      // if(config["ajaxConfig"]["isLogin"]){
+      //   config.headers["Authorization"]='Basic d2ViQXBwOndlYkFwcA==';
+      // }else{
+      //   config.headers["Authorization"]='Bearer '+_access_token;
+      // }
       
-      config.headers["Content-Type"]='application/x-www-form-urlencoded';
+      // config.headers["Content-Type"]='application/x-www-form-urlencoded';
 
     } catch (error) {
     }

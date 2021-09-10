@@ -15,7 +15,7 @@
                 <h3 class="head-tittle" @click="toHome">Supply Link</h3>
             </i-col>
 
-            <i-col span="8">
+            <i-col span="8" style="text-align:right">
                 <span style="color:#fff;padding-right:6px;font-size:12px">供应商A</span>
             </i-col>
             <!-- <i-col span="8" style="text-align:right;">
