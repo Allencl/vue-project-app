@@ -14,7 +14,11 @@
             <i-col span="8">
                 <h3 class="head-tittle" @click="toHome">Supply Link</h3>
             </i-col>
-            <i-col span="8" style="text-align:right;">
+
+            <i-col span="8">
+                <span style="color:#fff;padding-right:6px;font-size:12px">供应商A</span>
+            </i-col>
+            <!-- <i-col span="8" style="text-align:right;">
 
                 <Dropdown
                     trigger="click"
@@ -32,7 +36,7 @@
                 </Dropdown>
 
 
-            </i-col>            
+            </i-col>             -->
         </Row>
     </div>
 </template>

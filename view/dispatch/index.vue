@@ -5,7 +5,7 @@
             <ListItem v-for="(o,i) in list" :key="i">
                 <ul class="list-box" @click="toDetails(o)">
                     <Row>
-                        <i-col span="14">
+                        <i-col span="16">
                             <li>
                                 <label>转运单号:</label>
                                 <p>{{o.number}}</p>
@@ -25,11 +25,16 @@
                             <li>
                                 <label>创建时间:</label>
                                 <p>{{o.time}}</p>
-                            </li>                             
+                            </li> 
+                            <li style="height:26px">
+                                <Tag color="cyan">{{o.status}}</Tag>
+                            </li>                            
                         </i-col>
-                        <i-col span="10" style="text-align:right">
-                            <Tag class="status" color="cyan">{{o.status}}</Tag>
-                            <img :src="o.QRcode"> 
+                        <i-col span="8" style="padding-top: 18px;text-align:right">
+                            <!-- <img :src="o.QRcode">  -->
+                            <div class="QR-img-box">
+                                <vue-qr :text="o.number" :margin="0" :size="100"></vue-qr>
+                            </div>
                             <!-- <Icon style="position:relative;padding:8px;top:-20px;padding-left:0px;padding-right:0px" type="ios-arrow-forward" /> -->
                             <!-- <Button style=";padding:0px;box-shadow:none;" type="text" icon="ios-arrow-forward">详情</Button>      -->
                         </i-col>
@@ -37,12 +42,17 @@
                 </ul>
             </ListItem>
         </List>
+
         <p style="padding:26px 0px">没有更多了！</p>
 
     </div>
 </template>
 <script>
+import vueQr from 'vue-qr';
 export default {
+    components:{
+        vueQr
+    },    
     data() {
         return {
             // 列表
@@ -121,10 +131,19 @@ export default {
 <style lang="less">
 .wis-dispatch-html{
     padding-top: 12px;
+
+    .QR-img-box{
+        // &:active{
+        //     transform:scale(2);
+        // }
+    }
     
     .ivu-list{
         border-radius: 0px;
         border: none;
+    }
+    .ivu-list-item{
+        padding: 8px 8px !important;
     }
     ul.list-box{
         width: 100%;

@@ -1,5 +1,5 @@
 <template>
-    <span>
+    <span class="wis-receiving-html">
         <WisQrcode 
             v-if="showCamera"
             @decode="decodeHandle"
@@ -86,7 +86,29 @@
             </Form>
 
 
-            <Table 
+            <Card v-for="(o,i) in data" :key="i" style="width:100%" class="list-card">
+                <p slot="title">
+                    <Icon type="ios-pricetag-outline" />
+                    {{i+1}}
+                </p>
+
+                <ul>
+                    <li>
+                        <label>物料信息:</label>
+                        <strong>{{o.name}}</strong>
+                    </li>
+                    <li>
+                        <label>发货数:</label>
+                        <strong>{{o.deliver}}</strong>
+                    </li>
+                    <li v-if="showTable">
+                        <label>收货数:</label>
+                        <InputNumber v-model="takeDeliveryValue" size="small"  @on-change="changeInputNumber" :max="o.deliver" :min="0" ></InputNumber>
+                    </li>                                        
+                </ul>
+            </Card>
+
+            <!-- <Table 
                 size="small"
                 :columns="columns" 
                 :data="data"
@@ -94,9 +116,9 @@
                 v-if="showTable"
             >
                 <template slot-scope="{row}" slot="takeDelivery">
-                    <InputNumber v-model="takeDeliveryValue" @on-change="changeInputNumber" :max="row.deliver" :min="0" ></InputNumber>
+                    <InputNumber v-model="takeDeliveryValue" size="small"  @on-change="changeInputNumber" :max="row.deliver" :min="0" ></InputNumber>
                 </template>            
-            </Table>
+            </Table> -->
 
 
             <Affix :offset-bottom="20">
@@ -144,19 +166,23 @@
                 columns: [
                     {
                         title: '行号',
-                        key: 'no'
+                        key: 'no',
+                        maxWidth:60
                     },
                     {
                         title: '物料信息',
-                        key: 'name'
+                        key: 'name',
+              
                     },
                     {
                         title: '发货数',
-                        key: 'deliver'
+                        key: 'deliver',
+                        maxWidth:80
                     },  
                     {
                         title: '收货数',
                         slot: 'takeDelivery',
+                        minWidth:50
                     },                                    
                 ],
                 data: [
@@ -243,7 +269,7 @@
                     this.$Message.warning("请扫描或输入单号！");
                     return
                 }
-                
+
                 this.initFunc();
             },
             /**
@@ -284,3 +310,42 @@
         }        
     }
 </script>
+<style lang="less">
+.wis-receiving-html{
+    .list-card{
+        .ivu-card-head{
+            padding: 8px 12px;
+            text-align: left;
+            font-size: 12px;
+            height: 32px;
+
+            p{
+                font-size: 12px;
+            }
+        }
+        .ivu-card-body{
+            padding: 8px 8px;
+            ul{
+                li{
+                    list-style: none;
+                    font-size: 12px;
+                    text-align: left;
+                    height: 22px;
+
+                    label{
+                        display: inline-block;
+                        width: 60px;
+                        text-align: right;
+                        padding-right: 6px;
+                    }
+
+                    strong{
+                        font-weight: 300;
+                    }
+                }
+            }
+        }
+
+    }
+}
+</style>
