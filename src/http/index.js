@@ -64,21 +64,33 @@ export default {
       resolve(true); 
     });
   },
-  loginFunc(){
+  loginFunc(option={}){
     let that=this;
+    let _buffer=JSON.parse( (localStorage.getItem("login_buffer")||"{}") );
+    let _username=option["username"]||_buffer["username"];
+    let _password=option["password"]||_buffer["password"];
+
 
     return new Promise((resolve) => {
       axios({
         method: 'post',
-        url: 'api-uaa/oauth/user/token?username=longfeitest&password=1&zh_CN=zh_CN&customKey=toName=home',
+        url: 'api-uaa/oauth/user/token?username='+_username+'&password='+_password+'&zh_CN=zh_CN&customKey=toName=home',
         data: {
+          // username:_username,
+          // password:_password
         },
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Authorization': 'Basic d2ViQXBwOndlYkFwcA=='
         },
       }).then((response={})=>{
+
         let _data=response.data;
+
+        localStorage.setItem("login_buffer",JSON.stringify({
+          username:_username,
+          password:_password          
+        }));
         localStorage.setItem("login_config",JSON.stringify(_data));
         localStorage.setItem("new_expires_in",JSON.stringify(new Date().getTime()+(_data.data["expires_in"]*1000)));
 
@@ -93,6 +105,8 @@ export default {
 
 
         resolve(true); 
+      }).catch((error)=>{
+        ViewUI.Message.error(error.response.data.message);
       });
     });
   },

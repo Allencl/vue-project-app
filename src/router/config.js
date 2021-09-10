@@ -13,6 +13,12 @@ const  routes = [
         component: () => import("@src/layout/home.vue"),
     }, 
     {
+      name: 'login',
+      path: '/login',
+      meta: {title: '登录', keepAlive: true},
+      component: () => import("@src/layout/login.vue"),
+  },     
+    {
         name: 'dispatchHTML',
         path: '/dispatch',
         meta: {title: '半成品发货', keepAlive: true},
@@ -71,7 +77,19 @@ VueRouter.prototype.push = function push(location) {
 
 const router = new VueRouter({
   routes
-})
+});
+
+// 路由拦截
+router.beforeEach((to, from, next) => {
+  console.log(to.name)
+
+  if(to.name=="login"){
+    if(!to.params["toLogin"]) {
+      next('/');
+    }
+  }
+  next();
+});
 
 export default router;
 

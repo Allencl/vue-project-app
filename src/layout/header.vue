@@ -22,7 +22,23 @@
             </i-col>
 
             <i-col span="8" class="user-name-box" style="text-align:right">
-                <span style="color:#fff;padding-right:6px;font-size:12px">{{userName}}</span>
+                <span>{{userName}}</span>
+                <Dropdown
+                    class="dropdown-box"
+                    trigger="click"
+                    placement="bottom-end"
+                    @on-click="clickDropdown"
+                >
+                    <!-- <span style="color:#fff;padding-right:6px;font-size:12px">供应商A</span> -->
+                    <Icon style="color:#fff;font-size:18px" type="md-settings" />
+                    <DropdownMenu slot="list">
+                        <DropdownItem name="logout">
+                            <Icon type="ios-log-out" style="margin-right:8px" />
+                            <span>退出登录</span>
+                        </DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+
             </i-col>
             <!-- <i-col span="8" style="text-align:right;">
 
@@ -85,7 +101,12 @@ export default {
          * 退出 登录
          */
         logoutFunc:function(){
-            console.log("sdsd");
+            this.$router.push({
+                name:'login',
+                params:{
+                    toLogin:true
+                }
+            });
         },
         /**
          * 切换
@@ -105,6 +126,14 @@ export default {
 
 <style lang="less">
 .wis-head{
+
+    .dropdown-box{
+        position: absolute;
+        top: 2px;
+        right: 4px;
+        z-index: 11;
+    }
+
     .adress-head{
         padding-left:8px;
         position: relative;
@@ -143,7 +172,8 @@ export default {
     }
 
     .user-name-box{
-        span{
+        position: relative;
+        >span{
             padding-top: 2px;
             display: inline-block;
             padding-left: 6px;
@@ -151,6 +181,9 @@ export default {
             text-overflow: ellipsis;
             white-space: nowrap;
             width: 100%;
+            color:#fff;
+            padding-right:26px;
+            font-size:10px;
         }
     }
 

@@ -2,7 +2,7 @@
   <div id="app">
     <Layout>
 
-        <Affix>
+        <Affix v-if="!isLogin">
             <Header>
               <HeaderHTML />
             </Header>
@@ -32,12 +32,34 @@ export default {
   components: {
     HeaderHTML,
   },
+  data () {
+      return {
+        isLogin:false
+      }
+  },  
+  watch: {
+    "$route": {
+      handler(newData) {
+        this.isLogin=(newData["name"]=="login")?true:false;
+      },
+      deep: true
+    } 
+  },  
   created(){
     this.initFunc();
   },
   methods:{
     initFunc:function(){
-      this.$wisHTTP.loginFunc();
+      let _buffer=JSON.parse(localStorage.getItem("login_config"));
+      
+      if(!_buffer){
+        this.$router.push({
+            name:'login',
+            params:{
+                toLogin:true
+            }
+        });        
+      }
     }
   }
 }
