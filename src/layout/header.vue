@@ -1,22 +1,28 @@
 
 <template>
-    <div>
+    <div class="wis-head">
         <Row>
             <i-col span="8" style="text-align:left;">
-                <Button style="padding:0px;box-shadow:none;" ghost type="text" icon="ios-arrow-back" @click="backHTML">
-                    返回
-                </Button>
-                <span style="padding-left:8px">
-                    <Icon style="color:#fff;padding-right:3px" type="ios-pin-outline" />
-                    <span style="display:inline-block;white-space:nowrap;font-size:12px;max-width: 40px;color:#fff;font-size:12px">{{pageName}}</span>
-                </span>
+                <Row>
+                    <i-col span="6">
+                        <Button class="back-btn" size="small" style="padding:0px;box-shadow:none;" ghost type="text" icon="ios-arrow-back" @click="backHTML">
+                            
+                        </Button>
+                    </i-col>
+                    <i-col span="18" style="text-align:left">
+                        <div class="adress-head">
+                            <Icon style="color:#fff;padding-right:3px" type="ios-pin-outline" />
+                            <span>{{pageName}}</span>
+                        </div>                        
+                    </i-col>                    
+                </Row>
             </i-col>
             <i-col span="8">
                 <h3 class="head-tittle" @click="toHome">Supply Link</h3>
             </i-col>
 
-            <i-col span="8" style="text-align:right">
-                <span style="color:#fff;padding-right:6px;font-size:12px">供应商A</span>
+            <i-col span="8" class="user-name-box" style="text-align:right">
+                <span style="color:#fff;padding-right:6px;font-size:12px">{{userName}}</span>
             </i-col>
             <!-- <i-col span="8" style="text-align:right;">
 
@@ -45,6 +51,7 @@ export default {
     data() {
         return {
             pageName:'',
+            userName:localStorage.getItem("admin_name")
         }
     },  
     watch:{
@@ -97,8 +104,55 @@ export default {
 </script>
 
 <style lang="less">
+.wis-head{
+    .adress-head{
+        padding-left:8px;
+        position: relative;
+        padding-top: 2px;
+
+        .ivu-icon{
+            position: absolute;
+            top: 28px;
+            left: -1px;
+            font-size: 12px;
+        }
+
+        span{
+            display: inline-block;
+            display: inline-block;
+            padding-left: 6px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+            color: #fff;
+            font-size: 10px;
+        }
+    }
+}
 .ivu-layout-header{
-    padding: 0px 12px;
+    padding: 0px 4px;
+
+    .back-btn{
+        font-size: 12px;
+
+        span{
+            margin: 0px;
+
+        }
+    }
+
+    .user-name-box{
+        span{
+            padding-top: 2px;
+            display: inline-block;
+            padding-left: 6px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+        }
+    }
 
     .head-tittle{
         cursor: pointer;

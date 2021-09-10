@@ -5,7 +5,7 @@
             <ListItem v-for="(o,i) in list" :key="i">
                 <ul class="list-box" @click="toDetails(o)">
                     <Row>
-                        <i-col span="20">
+                        <i-col span="18">
                             <li>
                                 <label>发料单号:</label>
                                 <p>{{o.number}}</p>
@@ -30,11 +30,11 @@
                                 <p>{{o.time}}</p>
                             </li> 
                         </i-col>
-                        <i-col span="4" style="text-align:right">
+                        <i-col span="6" style="text-align:right">
                             <Tag class="status" color="cyan">{{o.status}}</Tag>
                             <!-- <img :src="o.QRcode" style="">  -->
                             <div style="width:10px;height:50px;display:inline-block"></div>
-                            <!-- <Icon style="position:relative;padding:8px;top:-20px;padding-left:0px;padding-right:0px" type="ios-arrow-forward" /> -->
+                            <Icon style="position:relative;top:-39px;padding-left:0px;padding-right:0px" type="ios-arrow-forward" />
                             <!-- <Button style=";padding:0px;box-shadow:none;" type="text" icon="ios-arrow-forward">详情</Button>      -->
                         </i-col>
                     </Row>       

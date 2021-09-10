@@ -65,6 +65,8 @@ export default {
     });
   },
   loginFunc(){
+    let that=this;
+
     return new Promise((resolve) => {
       axios({
         method: 'post',
@@ -79,6 +81,16 @@ export default {
         let _data=response.data;
         localStorage.setItem("login_config",JSON.stringify(_data));
         localStorage.setItem("new_expires_in",JSON.stringify(new Date().getTime()+(_data.data["expires_in"]*1000)));
+
+
+        that.post("api-supply/srm/supplier/getSupplierName",{
+
+        },{
+          hideLoading:true
+        }).then((response={}) => {
+          localStorage.setItem("admin_name",response.message);
+        }); 
+
 
         resolve(true); 
       });
