@@ -31,7 +31,7 @@ axios.defaults.withCredentials = true; //让ajax携带cookie
 // axios.defaults.baseURL=window.location.origin;
 // axios.defaults.baseURL="http://127.0.0.1:8082/";
 
-
+axios.defaults.baseURL=process.env.VUE_APP_SERVER_API_BASE;
 
 
 let instance = axios.create();
