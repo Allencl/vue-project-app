@@ -84,7 +84,7 @@ export default {
             .catch((error)=>{
 
                 // this.showError(error);
-                that.$emit("close");
+
 
 
                 if (error.name === 'NotAllowedError') {
@@ -108,7 +108,7 @@ export default {
                 }
 
 
-
+                that.$emit("close");
 
             })
         }
